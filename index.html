@@ -3,96 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="VoltPlay - Login to your gaming account and compete for trophies!">
-    <meta name="keywords" content="VoltPlay, login, games, online games, leaderboard, tic tac toe, coin flip">
+    <meta name="description" content="Login to VoltPlay and enjoy exciting games with leaderboard rankings!">
+    <meta name="keywords" content="VoltPlay, gaming, login, leaderboard, fun">
     <meta name="author" content="Voltage Lord">
 
     <!-- Social Media Meta Tags -->
     <meta property="og:title" content="VoltPlay - Login & Play!">
-    <meta property="og:description" content="Enter your VoltPlay account and start winning trophies in exciting mini-games!">
-    <meta property="og:image" content="https://i.ibb.co/ygB6FGJ/voltplay.png">
-    <meta property="og:url" content="https://voltagegames.com/login.html">
+    <meta property="og:description" content="Sign in to VoltPlay, compete in games, and earn trophies!">
+    <meta property="og:image" content="https://ibb.co/d95hC36">
+    <meta property="og:url" content="https://voltagegames.com/index.html">
     <meta name="twitter:card" content="summary_large_image">
-    
+
     <title>VoltPlay - Login</title>
-    <link rel="icon" href="https://i.ibb.co/ygB6FGJ/voltplay.png">
+    <link rel="icon" href="https://ibb.co/d95hC36">
 
     <style>
+        /* Loading Animation */
+        #loading {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ff7f00;
+            font-size: 40px;
+            font-weight: bold;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.5s;
+            display: none;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px #ff7f00; }
+            50% { text-shadow: 0 0 15px #ff7f00; }
+            100% { text-shadow: 0 0 5px #ff7f00; }
+        }
+
+        .glow {
+            animation: glow 1s infinite;
+        }
+
+        /* Page Styles */
         body {
             font-family: Arial, sans-serif;
             background: #fff;
             color: #ff7f00;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .login-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            max-width: 400px;
-            width: 100%;
-            border-top: 5px solid #ff7f00;
+            padding: 30px;
         }
 
-        .logo {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: url('https://i.ibb.co/ygB6FGJ/voltplay.png') no-repeat center/cover;
+        .container {
+            max-width: 350px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
 
         h1 {
-            color: #ff7f00;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
         }
 
         input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 2px solid #ff7f00;
             border-radius: 5px;
             font-size: 16px;
         }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            border: none;
+        #login-btn, #register-btn {
             background: #ff7f00;
             color: white;
-            font-size: 18px;
+            border: none;
+            padding: 10px;
+            width: 100%;
             border-radius: 5px;
+            font-size: 18px;
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        button:hover {
-            background: #e67300;
-        }
-
-        .register-link {
-            margin-top: 10px;
-            display: block;
-            font-size: 14px;
-            color: #ff7f00;
-        }
-
-        .register-link:hover {
-            text-decoration: underline;
-        }
-
-        .error {
-            color: red;
-            margin-top: 10px;
+        #login-btn:hover, #register-btn:hover {
+            background: darkorange;
         }
 
         .footer {
@@ -100,55 +110,80 @@
             font-size: 12px;
             color: gray;
         }
+
+        .register-link {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #ff7f00;
+            cursor: pointer;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
-    <div class="logo"></div>
+    <!-- Loading Animation -->
+    <div id="loading"><span class="glow">VP</span></div>
 
-    <div class="login-container">
-        <h1>VoltPlay🕹 Login🎰</h1>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="login()">Login</button>
-        <p class="error" id="errorMsg"></p>
-        <a href="register.html" class="register-link">Create an account</a>
+    <div class="container">
+        <h1>Welcome back!</h1>
+        <p>Volt🎮Play🎰</p>
+        <p>Wanna play some games? Log in to your account.</p>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+
+            <button type="submit" id="login-btn">Login</button>
+        </form>
+
+        <p class="register-link" onclick="redirectToRegister()">Don't have an account? Register</p>
+
         <p class="footer">© Voltage Lord 2025. All Rights Reserved.</p>
     </div>
 
     <script>
-        function login() {
+        function redirectToRegister() {
+            window.location.href = "register.html";
+        }
+
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
             let username = document.getElementById("username").value.trim();
-            let password = document.getElementById("password").value.trim();
-            let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
+            let password = document.getElementById("password").value;
 
             if (!username || !password) {
-                document.getElementById("errorMsg").innerText = "Username and password are required!";
+                alert("Please enter both username and password.");
                 return;
             }
+
+            let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
 
             if (!users[username] || users[username].password !== password) {
-                document.getElementById("errorMsg").innerText = "Invalid username or password!";
+                alert("Invalid username or password.");
                 return;
             }
 
-            // Check if user is banned
-            if (users[username].banned) {
-                document.getElementById("errorMsg").innerText = "Your account has been permanently banned!";
-                return;
-            }
+            // Show loading animation
+            document.getElementById("loading").style.display = "flex";
+            document.getElementById("loading").style.opacity = "1";
 
-            // Check if user is suspended
-            if (users[username].suspendedUntil && users[username].suspendedUntil > Date.now()) {
-                let timeLeft = Math.ceil((users[username].suspendedUntil - Date.now()) / (60 * 1000));
-                document.getElementById("errorMsg").innerText = `Account suspended! Try again in ${timeLeft} minutes.`;
-                return;
-            }
-
-            // Store logged-in user in session
-            sessionStorage.setItem("loggedInUser", username);
-            window.location.href = "dashboard.html"; // Redirect after login
-        }
+            setTimeout(() => {
+                alert("Login successful! Redirecting...");
+                window.location.href = "dashboard.html";
+            }, 5000); // 5 seconds loading
+        });
     </script>
 
 </body>
