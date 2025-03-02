@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,12 +10,12 @@
     <!-- Social Media Meta Tags -->
     <meta property="og:title" content="VoltPlay - Play & Compete!">
     <meta property="og:description" content="Join VoltPlay, play games, earn trophies, and climb the leaderboard!">
-    <meta property="og:image" content="https://ibb.co/d95hC36">
+    <meta property="og:image" content="https://clouddrop-7o16.onrender.com/uploads/lostboyfile-1740933800634.jpg">
     <meta property="og:url" content="https://voltagegames.com/dashboard.html">
     <meta name="twitter:card" content="summary_large_image">
 
     <title>VoltPlay - Dashboard</title>
-    <link rel="icon" href="https://ibb.co/d95hC36">
+    <link rel="icon" href="https://clouddrop-7o16.onrender.com/uploads/lostboyfile-1740933800634.jpg">
 
     <style>
         * {
@@ -33,42 +33,36 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            position: relative;
         }
 
         /* Profile Section */
-      /* Profile Section */
-/* Profile Section */
-.profile-section {
-    position: absolute;
-    top: 20px; /* Increase top spacing */
-    left: 20px;
-    display: flex;
-    flex-direction: column; /* Stack icon and name vertically */
-    align-items: center;
-    text-align: center;
-}
+        .profile-section {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
 
-/* Move down the header to avoid collision */
-.dashboard-container {
-    margin-top: 80px; /* Pushes the header down */
-}
+        .profile-icon {
+            font-size: 40px;
+        }
 
-/* Profile Icon */
-.profile-icon {
-    font-size: 40px;
-}
+        .profile-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
 
-/* Profile Name */
-.profile-name {
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 5px; /* Add spacing between icon and name */
-}
         /* Dashboard Container */
         .dashboard-container {
             max-width: 800px;
             width: 100%;
+            margin-top: 80px; /* Space for profile section */
         }
 
         h1 {
@@ -113,12 +107,15 @@
 
         /* Bottom Navigation */
         .bottom-nav {
-            position: absolute;
-            bottom: 20px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
             width: 100%;
             display: flex;
             justify-content: space-between;
-            padding: 0 20px;
+            padding: 10px 20px;
+            background: #fff;
+            border-top: 2px solid #ff7f00;
         }
 
         .nav-button {
@@ -207,22 +204,16 @@
     <p class="footer">© Voltage Lord 2025. All Rights Reserved.</p>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-  let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
-  let loggedUser = localStorage.getItem("loggedUser");
+        document.addEventListener("DOMContentLoaded", function () {
+            let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
+            let loggedUser = localStorage.getItem("loggedUser");
 
-  if (loggedUser && users[loggedUser]) {
-    document.getElementById("username").textContent = loggedUser; // Display correct username
-  } else {
-    document.getElementById("username").textContent = "Guest";
-    document.getElementById("leaderboard").innerHTML = "Login to see leaderboard.";
-  }
-
-  updateLeaderboard();
-});
+            if (loggedUser && users[loggedUser]) {
+                document.getElementById("username").textContent = loggedUser;
+            } else {
+                document.getElementById("username").textContent = "Guest";
+                document.getElementById("leaderboard").innerHTML = "Login to see leaderboard.";
             }
-
-            document.getElementById("username").textContent = loggedUser;
 
             updateLeaderboard();
         });
@@ -232,16 +223,19 @@
         }
 
         function logout() {
-  localStorage.removeItem("loggedUser");
-  window.location.href = "index.html"; // Redirect to index.html
-}
+            localStorage.removeItem("loggedUser");
+            window.location.href = "index.html";
+        }
 
         function updateLeaderboard() {
             let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
             let leaderboardHTML = "";
 
             let leaderboard = Object.entries(users)
-                .map(([user, data]) => ({ user, totalTrophies: Object.values(data.trophies || {}).reduce((a, b) => a + b, 0) }))
+                .map(([user, data]) => ({
+                    user,
+                    totalTrophies: data.trophies ? Object.values(data.trophies).reduce((a, b) => a + b, 0) : 0,
+                }))
                 .sort((a, b) => b.totalTrophies - a.totalTrophies)
                 .slice(0, 5);
 
@@ -256,6 +250,5 @@
             document.getElementById("leaderboard").innerHTML = leaderboardHTML;
         }
     </script>
-
 </body>
 </html>
