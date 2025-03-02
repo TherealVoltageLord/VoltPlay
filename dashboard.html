@@ -16,41 +16,67 @@
 
     <title>VoltPlay - Dashboard</title>
     <link rel="icon" href="https://ibb.co/d95hC36">
+
     <style>
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: Arial, sans-serif;
+        }
+
+        body {
             background: #fff;
             color: #ff7f00;
-            margin: 0;
             text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
         }
 
-        .logo {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: url('https://ibb.co/d95hC36') no-repeat center/cover;
-        }
+        /* Profile Section */
+      /* Profile Section */
+/* Profile Section */
+.profile-section {
+    position: absolute;
+    top: 20px; /* Increase top spacing */
+    left: 20px;
+    display: flex;
+    flex-direction: column; /* Stack icon and name vertically */
+    align-items: center;
+    text-align: center;
+}
 
+/* Move down the header to avoid collision */
+.dashboard-container {
+    margin-top: 80px; /* Pushes the header down */
+}
+
+/* Profile Icon */
+.profile-icon {
+    font-size: 40px;
+}
+
+/* Profile Name */
+.profile-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px; /* Add spacing between icon and name */
+}
+        /* Dashboard Container */
         .dashboard-container {
             max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
+            width: 100%;
         }
 
         h1 {
             color: #ff7f00;
+            margin-bottom: 15px;
         }
 
-        .user-info {
-            margin-bottom: 20px;
-            font-size: 18px;
-            color: black;
-        }
-
+        /* Games Grid */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -58,7 +84,7 @@
             padding: 20px;
         }
 
-        .game-card {
+        .game-card, .leaderboard-card {
             background: #fff;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
@@ -69,7 +95,7 @@
             border: 3px solid #ff7f00;
         }
 
-        .game-card:hover {
+        .game-card:hover, .leaderboard-card:hover {
             background: #ff7f00;
             color: white;
         }
@@ -79,22 +105,43 @@
             margin-bottom: 10px;
         }
 
-        .leaderboard {
-            margin-top: 20px;
-            padding: 10px;
-            background: #f9f9f9;
-            border-radius: 8px;
+        /* Leaderboard */
+        .leaderboard-card {
+            grid-column: span 2;
             font-size: 16px;
         }
 
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .profile-btn {
+            background: #ff7f00;
+            color: white;
+        }
+
+        .profile-btn:hover {
+            background: darkorange;
+        }
+
         .logout-btn {
-            margin-top: 20px;
-            padding: 10px;
             background: red;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
 
         .logout-btn:hover {
@@ -102,7 +149,8 @@
         }
 
         .footer {
-            margin-top: 15px;
+            position: absolute;
+            bottom: 5px;
             font-size: 12px;
             color: gray;
         }
@@ -110,11 +158,15 @@
 </head>
 <body>
 
-    <div class="logo"></div>
+    <!-- Profile Section -->
+    <div class="profile-section">
+        <div class="profile-icon">👤</div>
+        <div class="profile-name" id="username">Loading...</div>
+    </div>
 
+    <!-- Dashboard Container -->
     <div class="dashboard-container">
         <h1>Welcome to VoltPlay</h1>
-        <p class="user-info" id="user-info">Loading...</p>
 
         <div class="games-grid">
             <div class="game-card" onclick="playGame('tictactoe.html')">
@@ -137,17 +189,22 @@
                 <div class="game-icon">🔢</div>
                 <strong>Speed Math Quiz</strong>
             </div>
+
+            <!-- Leaderboard Card -->
+            <div class="leaderboard-card">
+                <h3>Leaderboard</h3>
+                <p id="leaderboard">Fetching leaderboard...</p>
+            </div>
         </div>
-
-        <div class="leaderboard">
-            <h3>Weekly Leaderboard</h3>
-            <p id="leaderboard">Fetching leaderboard...</p>
-        </div>
-
-        <button class="logout-btn" onclick="logout()">Logout</button>
-
-        <p class="footer">© Voltage Lord 2025. All Rights Reserved.</p>
     </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <button class="nav-button profile-btn" onclick="window.location.href='profile.html'">Profile</button>
+        <button class="nav-button logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <p class="footer">© Voltage Lord 2025. All Rights Reserved.</p>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -155,15 +212,12 @@
             let loggedUser = localStorage.getItem("loggedUser");
 
             if (!loggedUser || !users[loggedUser]) {
-                alert("Please log in first.");
-                window.location.href = "login.html";
+                document.getElementById("username").textContent = "Guest";
+                document.getElementById("leaderboard").innerHTML = "Login to see leaderboard.";
                 return;
             }
 
-            let trophies = users[loggedUser].trophies || {};
-            let trophyDisplay = Object.entries(trophies).map(([game, count]) => `${game}: ${"🏆".repeat(count)}`).join("<br>");
-
-            document.getElementById("user-info").innerHTML = `User: <strong>${loggedUser}</strong><br>${trophyDisplay || "No trophies yet!"}`;
+            document.getElementById("username").textContent = loggedUser;
 
             updateLeaderboard();
         });
@@ -173,9 +227,9 @@
         }
 
         function logout() {
-            localStorage.removeItem("loggedUser");
-            window.location.href = "login.html";
-        }
+  localStorage.removeItem("loggedUser");
+  window.location.href = "index.html"; // Redirect to index.html
+}
 
         function updateLeaderboard() {
             let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
