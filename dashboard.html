@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VoltPlay - Your gaming hub for fun mini-games and leaderboard challenges!">
+    <meta name="keywords" content="VoltPlay, gaming, leaderboard, mini-games, challenge">
+    <meta name="author" content="Voltage Lord">
+
+    <!-- Social Media Meta Tags -->
+    <meta property="og:title" content="VoltPlay - Play & Compete!">
+    <meta property="og:description" content="Join VoltPlay, play games, earn trophies, and climb the leaderboard!">
+    <meta property="og:image" content="https://ibb.co/d95hC36">
+    <meta property="og:url" content="https://voltagegames.com/dashboard.html">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <title>VoltPlay - Dashboard</title>
+    <link rel="icon" href="https://ibb.co/d95hC36">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+            color: #ff7f00;
+            margin: 0;
+            text-align: center;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: url('https://ibb.co/d95hC36') no-repeat center/cover;
+        }
+
+        .dashboard-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ff7f00;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: black;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .game-card {
+            background: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 3px solid #ff7f00;
+        }
+
+        .game-card:hover {
+            background: #ff7f00;
+            color: white;
+        }
+
+        .game-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .leaderboard {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .logout-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: darkred;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo"></div>
+
+    <div class="dashboard-container">
+        <h1>Welcome to VoltPlay</h1>
+        <p class="user-info" id="user-info">Loading...</p>
+
+        <div class="games-grid">
+            <div class="game-card" onclick="playGame('tictactoe.html')">
+                <div class="game-icon">🎲</div>
+                <strong>Tic-Tac-Toe</strong>
+            </div>
+            <div class="game-card" onclick="playGame('coinflip.html')">
+                <div class="game-icon">🪙</div>
+                <strong>Coin Flip</strong>
+            </div>
+            <div class="game-card" onclick="playGame('memory.html')">
+                <div class="game-icon">🧠</div>
+                <strong>Memory Game</strong>
+            </div>
+            <div class="game-card" onclick="playGame('rps.html')">
+                <div class="game-icon">✊</div>
+                <strong>Rock Paper Scissors</strong>
+            </div>
+            <div class="game-card" onclick="playGame('mathquiz.html')">
+                <div class="game-icon">🔢</div>
+                <strong>Speed Math Quiz</strong>
+            </div>
+        </div>
+
+        <div class="leaderboard">
+            <h3>Weekly Leaderboard</h3>
+            <p id="leaderboard">Fetching leaderboard...</p>
+        </div>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+
+        <p class="footer">© Voltage Lord 2025. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
+            let loggedUser = localStorage.getItem("loggedUser");
+
+            if (!loggedUser || !users[loggedUser]) {
+                alert("Please log in first.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            let trophies = users[loggedUser].trophies || {};
+            let trophyDisplay = Object.entries(trophies).map(([game, count]) => `${game}: ${"🏆".repeat(count)}`).join("<br>");
+
+            document.getElementById("user-info").innerHTML = `User: <strong>${loggedUser}</strong><br>${trophyDisplay || "No trophies yet!"}`;
+
+            updateLeaderboard();
+        });
+
+        function playGame(game) {
+            window.location.href = game;
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedUser");
+            window.location.href = "login.html";
+        }
+
+        function updateLeaderboard() {
+            let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
+            let leaderboardHTML = "";
+
+            let leaderboard = Object.entries(users)
+                .map(([user, data]) => ({ user, totalTrophies: Object.values(data.trophies || {}).reduce((a, b) => a + b, 0) }))
+                .sort((a, b) => b.totalTrophies - a.totalTrophies)
+                .slice(0, 5);
+
+            if (leaderboard.length > 0) {
+                leaderboard.forEach((entry, index) => {
+                    leaderboardHTML += `${index + 1}. ${entry.user} - 🏆${entry.totalTrophies}<br>`;
+                });
+            } else {
+                leaderboardHTML = "No leaderboard data yet.";
+            }
+
+            document.getElementById("leaderboard").innerHTML = leaderboardHTML;
+        }
+    </script>
+
+</body>
+</html>
