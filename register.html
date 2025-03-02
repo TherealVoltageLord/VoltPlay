@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VoltPlay - Register to create your gaming account and start winning trophies in exciting mini-games!">
+    <meta name="keywords" content="VoltPlay, register, gaming, online games, leaderboard, mini-games">
+    <meta name="author" content="Voltage Lord">
+
+    <!-- Social Media Meta Tags -->
+    <meta property="og:title" content="VoltPlay - Register & Play!">
+    <meta property="og:description" content="Join VoltPlay, create your account, and challenge your friends in exciting mini-games while collecting trophies!">
+    <meta property="og:image" content="https://ibb.co/d95hC36">
+    <meta property="og:url" content="https://voltagegames.com/register.html">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <title>VoltPlay - Register</title>
+    <link rel="icon" href="https://ibb.co/d95hC36">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+            color: #ff7f00;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: url('https://ibb.co/d95hC36') no-repeat center/cover;
+        }
+
+        .register-container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            border-top: 5px solid #ff7f00;
+        }
+
+        h1 {
+            color: #ff7f00;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background: #ff7f00;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #e67300;
+        }
+
+        .login-link {
+            margin-top: 10px;
+            display: block;
+            font-size: 14px;
+            color: #ff7f00;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo"></div>
+
+    <div class="register-container">
+        <h1>Create Your VoltPlay Account</h1>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <p class="error" id="errorMsg"></p>
+        <button onclick="registerUser()">Register</button>
+        <a href="login.html" class="login-link">Already have an account? Login</a>
+        <p class="footer">© Voltage Lord 2025. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        function registerUser() {
+            let username = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value;
+            let errorMsg = document.getElementById("errorMsg");
+
+            // Basic validations
+            if (username.length < 3) {
+                errorMsg.innerText = "Username must be at least 3 characters long!";
+                return;
+            }
+            // Password must be at least 8 characters and include one special character (!@#$%^&*)
+            if (password.length < 8 || !/[!@#$%^&*]/.test(password)) {
+                errorMsg.innerText = "Password must be 8+ characters and include at least one special character (!@#$%^&*).";
+                return;
+            }
+
+            // Retrieve existing users or create new object
+            let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
+
+            // Check if username already exists
+            if (users[username]) {
+                errorMsg.innerText = "Username already exists. Please choose another.";
+                return;
+            }
+
+            // Save new user with an empty trophies object
+            users[username] = { password: password, trophies: {} };
+            localStorage.setItem("voltplayUsers", JSON.stringify(users));
+
+            alert("Registration successful! Please login to continue.");
+            window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+</html>
