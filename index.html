@@ -3,188 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login to VoltPlay and enjoy exciting games with leaderboard rankings!">
-    <meta name="keywords" content="VoltPlay, gaming, login, leaderboard, fun">
-    <meta name="author" content="Voltage Lord">
-
-    <!-- Social Media Meta Tags -->
-    <meta property="og:title" content="VoltPlay - Login & Play!">
-    <meta property="og:description" content="Sign in to VoltPlay, compete in games, and earn trophies!">
-    <meta property="og:image" content="https://ibb.co/d95hC36">
-    <meta property="og:url" content="https://voltagegames.com/index.html">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <title>VoltPlay - Login</title>
-    <link rel="icon" href="https://ibb.co/d95hC36">
-
+    <title>VoltPlay | Login</title>
+    <meta name="description" content="Login to VoltPlay gaming platform">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Loading Animation */
-        #loading {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+        :root {
+            --primary: #6e00ff;
+            --secondary: #ff00a8;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --danger: #dc3545;
+            --card-bg: rgba(30, 30, 50, 0.85);
+            --card-border: rgba(255, 255, 255, 0.12);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), #16213e);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #ff7f00;
-            font-size: 40px;
-            font-weight: bold;
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.5s;
-            display: none;
+            color: rgba(255, 255, 255, 0.92);
         }
-
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #ff7f00; }
-            50% { text-shadow: 0 0 15px #ff7f00; }
-            100% { text-shadow: 0 0 5px #ff7f00; }
+        
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.4s ease-out;
         }
-
-        .glow {
-            animation: glow 1s infinite;
-        }
-
-        /* Page Styles */
-        body {
-            font-family: Arial, sans-serif;
-            background: #fff;
-            color: #ff7f00;
+        
+        .auth-header {
+            padding: 30px;
             text-align: center;
+            background: linear-gradient(135deg, rgba(110, 0, 255, 0.2), rgba(255, 0, 168, 0.2));
+        }
+        
+        .auth-header i {
+            font-size: 3rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .auth-header h1 {
+            margin-top: 15px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1.8rem;
+        }
+        
+        .auth-form {
             padding: 30px;
         }
-
-        .container {
-            max-width: 350px;
-            margin: auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        h1 {
-            margin-bottom: 10px;
-        }
-
-        p {
-            margin-bottom: 15px;
-        }
-
+        
         .form-group {
-            text-align: left;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
-
-        label {
-            font-weight: bold;
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
-
-        input {
+        
+        .form-group input {
             width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 2px solid #ff7f00;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        #login-btn, #register-btn {
-            background: #ff7f00;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: none;
-            padding: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(110, 0, 255, 0.2);
+        }
+        
+        .btn-primary {
             width: 100%;
-            border-radius: 5px;
-            font-size: 18px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-
-        #login-btn:hover, #register-btn:hover {
-            background: darkorange;
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(110, 0, 255, 0.3);
         }
-
-        .footer {
-            margin-top: 15px;
-            font-size: 12px;
-            color: gray;
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
         }
-
-        .register-link {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #ff7f00;
-            cursor: pointer;
+        
+        .auth-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
         }
-
-        .register-link:hover {
-            text-decoration: underline;
+        
+        .auth-footer a:hover {
+            opacity: 0.8;
+        }
+        
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 500px) {
+            .auth-container {
+                max-width: 95%;
+            }
+            
+            .auth-header, .auth-form {
+                padding: 25px;
+            }
         }
     </style>
 </head>
 <body>
-
-    <!-- Loading Animation -->
-    <div id="loading"><span class="glow">VP</span></div>
-
-    <div class="container">
-        <h1>Welcome back!</h1>
-        <p>Volt🎮Play🎰</p>
-        <p>Wanna play some games? Log in to your account.</p>
-
-        <form id="login-form">
+    <div class="auth-container">
+        <div class="auth-header">
+            <i class="fas fa-gamepad"></i>
+            <h1>Welcome Back</h1>
+        </div>
+        <div class="auth-form">
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" autocomplete="username">
+                <div class="error-message" id="email-error">Valid email is required</div>
             </div>
-
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" required>
+                <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+                <div class="error-message" id="password-error">Password is required</div>
             </div>
-
-            <button type="submit" id="login-btn">Login</button>
-        </form>
-
-        <p class="register-link" onclick="redirectToRegister()">Don't have an account? Register</p>
-
-        <p class="footer">© Voltage Lord 2025. All Rights Reserved.</p>
+            <button class="btn-primary" id="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <div class="auth-footer">
+                Don't have an account? <a href="reg.html">Register here</a>
+            </div>
+        </div>
     </div>
 
     <script>
-        function redirectToRegister() {
-            window.location.href = "register.html";
+        // Configuration
+        const API_BASE_URL = 'https://voltagelord-volt-play-server.hf.space';
+        
+        // DOM Elements
+        const loginBtn = document.getElementById('login-btn');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+        
+        // Form Validation
+        function validateForm() {
+            let isValid = true;
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value.trim())) {
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+            
+            // Password validation
+            if (passwordInput.value.trim() === '') {
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+            
+            return isValid;
         }
-
-        document.getElementById("login-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            let username = document.getElementById("username").value.trim();
-            let password = document.getElementById("password").value;
-
-            if (!username || !password) {
-                alert("Please enter both username and password.");
-                return;
+        
+        // Login Function
+        async function handleLogin() {
+            if (!validateForm()) return;
+            
+            const credentials = {
+                email: emailInput.value.trim(),
+                password: passwordInput.value
+            };
+            
+            try {
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+                
+                const response = await fetch(`${API_BASE_URL}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(credentials)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Store authentication data
+                    localStorage.setItem('auth_token', data.token);
+                    localStorage.setItem('user', JSON.stringify({
+                        id: data.user_id,
+                        username: data.username,
+                        coins: data.coins,
+                        points: data.points,
+                        isAdmin: data.is_admin
+                    }));
+                    
+                    // Redirect to dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    const error = await response.json();
+                    alert(error.error || 'Login failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Network error. Please try again.');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
             }
-
-            let users = JSON.parse(localStorage.getItem("voltplayUsers")) || {};
-
-            if (!users[username] || users[username].password !== password) {
-                alert("Invalid username or password.");
-                return;
-            }
-
-            // Show loading animation
-            document.getElementById("loading").style.display = "flex";
-            document.getElementById("loading").style.opacity = "1";
-
-            setTimeout(() => {
-                alert("Login successful! Redirecting...");
-                window.location.href = "dashboard.html";
-            }, 5000); // 5 seconds loading
+        }
+        
+        // Event Listeners
+        loginBtn.addEventListener('click', handleLogin);
+        
+        // Allow login on Enter key
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleLogin();
+        });
+        
+        // Clear errors when typing
+        emailInput.addEventListener('input', () => {
+            emailError.style.display = 'none';
+        });
+        
+        passwordInput.addEventListener('input', () => {
+            passwordError.style.display = 'none';
         });
     </script>
-
 </body>
 </html>
