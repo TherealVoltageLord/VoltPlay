@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoltPlay | Register</title>
+    <meta name="description" content="Create your VoltPlay account">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e00ff;
+            --secondary: #ff00a8;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --danger: #dc3545;
+            --card-bg: rgba(30, 30, 50, 0.85);
+            --card-border: rgba(255, 255, 255, 0.12);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), #16213e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.92);
+        }
+        
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .auth-header {
+            padding: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(110, 0, 255, 0.2), rgba(255, 0, 168, 0.2));
+        }
+        
+        .auth-header i {
+            font-size: 3rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .auth-header h1 {
+            margin-top: 15px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1.8rem;
+        }
+        
+        .auth-form {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(110, 0, 255, 0.2);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(110, 0, 255, 0.3);
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .auth-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .auth-footer a:hover {
+            opacity: 0.8;
+        }
+        
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 500px) {
+            .auth-container {
+                max-width: 95%;
+            }
+            
+            .auth-header, .auth-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <i class="fas fa-gamepad"></i>
+            <h1>Create Account</h1>
+        </div>
+        <div class="auth-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" autocomplete="username">
+                <div class="error-message" id="username-error">Username is required</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" autocomplete="email">
+                <div class="error-message" id="email-error">Valid email is required</div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password (min 6 characters)</label>
+                <input type="password" id="password" placeholder="Enter your password" autocomplete="new-password">
+                <div class="error-message" id="password-error">Password must be at least 6 characters</div>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Confirm your password" autocomplete="new-password">
+                <div class="error-message" id="confirm-error">Passwords don't match</div>
+            </div>
+            <button class="btn-primary" id="register-btn">
+                <i class="fas fa-user-plus"></i> Register
+            </button>
+            <div class="auth-footer">
+                Already have an account? <a href="index.html">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'https://voltagelord-volt-play-server.hf.space';
+        
+        // DOM Elements
+        const registerBtn = document.getElementById('register-btn');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('confirm-password');
+        const usernameError = document.getElementById('username-error');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+        const confirmError = document.getElementById('confirm-error');
+        
+        // Form Validation
+        function validateForm() {
+            let isValid = true;
+            
+            // Username validation
+            if (usernameInput.value.trim() === '') {
+                usernameError.style.display = 'block';
+                isValid = false;
+            } else {
+                usernameError.style.display = 'none';
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value.trim())) {
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+            
+            // Password validation
+            if (passwordInput.value.length < 6) {
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+            
+            // Confirm password validation
+            if (passwordInput.value !== confirmInput.value) {
+                confirmError.style.display = 'block';
+                isValid = false;
+            } else {
+                confirmError.style.display = 'none';
+            }
+            
+            return isValid;
+        }
+        
+        // Registration Function
+        async function handleRegistration() {
+            if (!validateForm()) return;
+            
+            const userData = {
+                username: usernameInput.value.trim(),
+                email: emailInput.value.trim(),
+                password: passwordInput.value
+            };
+            
+            try {
+                registerBtn.disabled = true;
+                registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+                
+                const response = await fetch(`${API_BASE_URL}/api/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    alert('Registration successful! Please login.');
+                    window.location.href = 'index.html';
+                } else {
+                    const error = await response.json();
+                    alert(error.error || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Network error. Please try again.');
+            } finally {
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+            }
+        }
+        
+        // Event Listeners
+        registerBtn.addEventListener('click', handleRegistration);
+        
+        // Clear errors when typing
+        usernameInput.addEventListener('input', () => {
+            usernameError.style.display = 'none';
+        });
+        
+        emailInput.addEventListener('input', () => {
+            emailError.style.display = 'none';
+        });
+        
+        passwordInput.addEventListener('input', () => {
+            passwordError.style.display = 'none';
+            if (confirmInput.value) validatePasswordMatch();
+        });
+        
+        confirmInput.addEventListener('input', validatePasswordMatch);
+        
+        function validatePasswordMatch() {
+            if (passwordInput.value !== confirmInput.value) {
+                confirmError.style.display = 'block';
+                return false;
+            } else {
+                confirmError.style.display = 'none';
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>
